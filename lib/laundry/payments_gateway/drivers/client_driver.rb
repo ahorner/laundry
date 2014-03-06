@@ -65,16 +65,6 @@ module Laundry
          'ConsumerID',
          'Status']
       end
-
-      def self.default_hash
-        h = {}
-        self.prettifiable_fields.each do |f|
-          h[f] = ""
-        end
-        h
-      end
-
     end
-
   end
 end
