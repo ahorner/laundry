@@ -34,18 +34,19 @@ module Laundry
         r[:create_payment_method_response][:create_payment_method_result]
       end
 
-      def self.prettifiable_fields
+      def self.default_fields
         ['MerchantID',
          'ClientID',
          'PaymentMethodID',
          'AcctHolderName',
          'EcAccountNumber',
          'EcAccountTRN',
-         'EcAccountType',
-         'Note',
-         'IsDefault']
+         'EcAccountType']
       end
 
+      def self.prettifiable_fields
+        default_fields + ['Note', 'IsDefault']
+      end
     end
 
   end

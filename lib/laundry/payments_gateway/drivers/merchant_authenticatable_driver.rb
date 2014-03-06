@@ -21,6 +21,10 @@ module Laundry
         self.merchant.login_credentials.merge("MerchantID" => self.merchant.id)
       end
 
+      def self.default_fields
+        []
+      end
+
       def self.prettifiable_fields
         []
       end
@@ -43,7 +47,7 @@ module Laundry
 
       def self.default_hash
         h = {}
-        self.prettifiable_fields.each do |f|
+        self.default_fields.each do |f|
           h[f] = ""
         end
         h

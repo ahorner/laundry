@@ -36,7 +36,7 @@ module Laundry
 
       private
 
-      def self.prettifiable_fields
+      def self.default_fields
         ['MerchantID',
          'ClientID',
          'FirstName',
@@ -64,6 +64,10 @@ module Laundry
          'ShiptoFaxNumber',
          'ConsumerID',
          'Status']
+      end
+
+      def self.prettifiable_fields
+        default_fields
       end
     end
   end
