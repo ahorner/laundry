@@ -23,9 +23,12 @@ module Laundry
       # Returns the payment method id
       def create!(options = {})
         raise ArgumentError, "Tried to create an account on an invalid client." if self.client.nil? || self.client.blank?
-        options = {merchant_id: self.merchant.id, client_id: self.client.id, payment_method_id: 0}.merge(options)
-        options = AccountDriver.uglify_hash(options)
-        r = client_driver.create_payment_method({'payment' => options}) do
+        options = AccountDriver.uglify_hash(options.merge(
+          merchant_id: self.merchant.id,
+          client_id: self.client.id,
+          payment_method_id: 0))
+
+        r = client_driver.create_payment_method("payment" => options) do
           http.headers["SOAPAction"] = 'https://ws.paymentsgateway.net/v1/IClientService/createPaymentMethod'
         end
         r[:create_payment_method_response][:create_payment_method_result]

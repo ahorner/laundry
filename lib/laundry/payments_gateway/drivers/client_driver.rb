@@ -23,15 +23,20 @@ module Laundry
 
       # Creates a client and returns the newly created client id.
       def create!(options = {})
-        r = create_client({'client' => ClientDriver.default_hash.merge(options).merge({'MerchantID' => self.merchant.id, 'ClientID' => 0, 'Status' => 'Active'})} ) do
-          http.headers["SOAPAction"] = 'https://ws.paymentsgateway.net/v1/IClientService/createClient'
+        options = ClientDriver.uglify_hash(options.merge(
+          merchant_id: self.merchant.id,
+          client_id: 0,
+          status: "Active"))
+
+        r = create_client("client" => ClientDriver.default_hash.merge(options)) do
+          http.headers["SOAPAction"] = "https://ws.paymentsgateway.net/v1/IClientService/createClient"
         end
         r[:create_client_response][:create_client_result]
       end
 
       private
 
-      def self.default_fields
+      def self.prettifiable_fields
         ['MerchantID',
          'ClientID',
          'FirstName',
@@ -63,7 +68,7 @@ module Laundry
 
       def self.default_hash
         h = {}
-        self.default_fields.each do |f|
+        self.prettifiable_fields.each do |f|
           h[f] = ""
         end
         h
