@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# encoding: UTF-8
 require File.expand_path('../lib/laundry/version', __FILE__)
 
 Gem::Specification.new do |gem|
@@ -16,9 +16,9 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Laundry::VERSION
 
-  gem.add_dependency 'savon', '~>1.2.0'
+  gem.add_dependency "savon", "~>1.2.0"
 
-  gem.add_development_dependency 'rspec'
-  gem.add_development_dependency 'debugger'
+  gem.add_development_dependency "rspec"
+  gem.add_development_dependency "debugger"
 
 end
