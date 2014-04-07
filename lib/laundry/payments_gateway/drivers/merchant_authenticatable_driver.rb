@@ -14,7 +14,7 @@ module Laundry
 
       def default_body
         # Log in via the merchant's login credentials.
-        self.merchant.login_credentials
+        self.merchant.login_credentials.merge("MerchantID" => self.merchant.id)
       end
 
       def self.default_fields
