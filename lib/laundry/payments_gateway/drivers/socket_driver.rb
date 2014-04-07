@@ -3,8 +3,7 @@ module Laundry
 
     class SocketDriver < MerchantAuthenticatableDriver
 
-      # Setup WSDL
-      def self.wsdl
+      def document
         if Laundry.sandboxed?
           "https://ws.paymentsgateway.net/pgtest/paymentsgateway.asmx?WSDL"
         else

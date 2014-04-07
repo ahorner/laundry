@@ -3,19 +3,18 @@ module Laundry
 
     class TransactionDriver < MerchantAuthenticatableDriver
 
-      # Setup WSDL
-      def self.wsdl
+      def document
         if Laundry.sandboxed?
-          'https://sandbox.paymentsgateway.net/WS/Transaction.wsdl'
+          "https://sandbox.paymentsgateway.net/WS/Transaction.wsdl"
         else
-          'https://ws.paymentsgateway.net/Service/v1/Transaction.wsdl'
+          "https://ws.paymentsgateway.net/Service/v1/Transaction.wsdl"
         end
       end
 
       actions "getTransaction"
 
       def find(client_id, transaction_id)
-        r = get_transaction({'ClientID' => client_id, 'TransactionID' => transaction_id}) do
+        r = get_transaction("ClientID" => client_id, "TransactionID" => transaction_id) do
           http.headers["SOAPAction"] = "https://ws.paymentsgateway.net/v1/ITransactionService/getTransaction"
         end
         Transaction.from_response(r, self.merchant)

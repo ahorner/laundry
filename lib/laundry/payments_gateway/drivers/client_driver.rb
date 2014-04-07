@@ -3,8 +3,7 @@ module Laundry
 
     class ClientDriver < MerchantAuthenticatableDriver
 
-      # Setup WSDL
-      def self.wsdl
+      def document
         if Laundry.sandboxed?
           "https://sandbox.paymentsgateway.net/WS/Client.wsdl"
         else
@@ -15,7 +14,7 @@ module Laundry
       actions "createClient", "getClient", "getPaymentMethod", "createPaymentMethod"
 
       def find(id)
-        r = get_client({'ClientID' => id}) do
+        r = get_client("ClientID" => id) do
           http.headers["SOAPAction"] = 'https://ws.paymentsgateway.net/v1/IClientService/getClient'
         end
         Client.from_response(r, self.merchant)
@@ -28,7 +27,7 @@ module Laundry
           client_id: 0,
           status: "Active"))
 
-        r = create_client("client" => ClientDriver.default_hash.merge(options)) do
+        r = create_client("client" => ClientDriver.apply(options)) do
           http.headers["SOAPAction"] = "https://ws.paymentsgateway.net/v1/IClientService/createClient"
         end
         r[:create_client_response][:create_client_result]
@@ -37,33 +36,33 @@ module Laundry
       private
 
       def self.default_fields
-        ['MerchantID',
-         'ClientID',
-         'FirstName',
-         'LastName',
-         'CompanyName',
-         'Address1',
-         'Address2',
-         'City',
-         'State',
-         'PostalCode',
-         'CountryCode',
-         'PhoneNumber',
-         'FaxNumber',
-         'EmailAddress',
-         'ShiptoFirstName',
-         'ShiptoLastName',
-         'ShiptoCompanyName',
-         'ShiptoAddress1',
-         'ShiptoAddress2',
-         'ShiptoCity',
-         'ShiptoState',
-         'ShiptoPostalCode',
-         'ShiptoCountryCode',
-         'ShiptoPhoneNumber',
-         'ShiptoFaxNumber',
-         'ConsumerID',
-         'Status']
+        [ "MerchantID",
+          "ClientID",
+          "FirstName",
+          "LastName",
+          "CompanyName",
+          "Address1",
+          "Address2",
+          "City",
+          "State",
+          "PostalCode",
+          "CountryCode",
+          "PhoneNumber",
+          "FaxNumber",
+          "EmailAddress",
+          "ShiptoFirstName",
+          "ShiptoLastName",
+          "ShiptoCompanyName",
+          "ShiptoAddress1",
+          "ShiptoAddress2",
+          "ShiptoCity",
+          "ShiptoState",
+          "ShiptoPostalCode",
+          "ShiptoCountryCode",
+          "ShiptoPhoneNumber",
+          "ShiptoFaxNumber",
+          "ConsumerID",
+          "Status" ]
       end
 
       def self.prettifiable_fields

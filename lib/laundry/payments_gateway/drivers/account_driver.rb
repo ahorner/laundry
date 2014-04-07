@@ -28,20 +28,20 @@ module Laundry
           client_id: self.client.id,
           payment_method_id: 0))
 
-        r = client_driver.create_payment_method("payment" => AccountDriver.default_hash.merge(options)) do
+        r = client_driver.create_payment_method("payment" => AccountDriver.apply(options)) do
           http.headers["SOAPAction"] = 'https://ws.paymentsgateway.net/v1/IClientService/createPaymentMethod'
         end
         r[:create_payment_method_response][:create_payment_method_result]
       end
 
       def self.default_fields
-        ['MerchantID',
-         'ClientID',
-         'PaymentMethodID',
-         'AcctHolderName',
-         'EcAccountNumber',
-         'EcAccountTRN',
-         'EcAccountType']
+        [ "MerchantID",
+          "ClientID",
+          "PaymentMethodID",
+          "AcctHolderName",
+          "EcAccountNumber",
+          "EcAccountTRN",
+          "EcAccountType" ]
       end
 
       def self.prettifiable_fields

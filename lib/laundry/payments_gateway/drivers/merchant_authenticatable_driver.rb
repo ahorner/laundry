@@ -9,16 +9,12 @@ module Laundry
       def initialize(merchant)
         # Save the merchant.
         self.merchant = merchant
-        setup_client!
-      end
-
-      def setup_client!
-        self.class.client.wsdl.document = self.class.wsdl if self.class.respond_to?(:wsdl)
+        self.class.document document if respond_to?(:document)
       end
 
       def default_body
         # Log in via the merchant's login credentials.
-        self.merchant.login_credentials.merge("MerchantID" => self.merchant.id)
+        self.merchant.login_credentials
       end
 
       def self.default_fields
@@ -48,9 +44,13 @@ module Laundry
       def self.default_hash
         h = {}
         self.default_fields.each do |f|
-          h[f] = ""
+          h[f] = nil
         end
         h
+      end
+
+      def self.apply(options)
+        default_hash.merge(options).reject { |k, v| v.nil? }
       end
     end
   end

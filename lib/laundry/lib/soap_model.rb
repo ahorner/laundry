@@ -49,8 +49,8 @@ module Laundry
       @class_action_module ||= Module.new do
 
         # Returns the memoized <tt>Savon::Client</tt>.
-        def client(&block)
-          @client ||= Savon::Client.new(&block)
+        def client
+          @client ||= Savon::Client.new
         end
 
         # Sets the SOAP endpoint to the given +uri+.
@@ -95,8 +95,8 @@ module Laundry
       @instance_action_module ||= Module.new do
 
         # Returns the <tt>Savon::Client</tt> from the class instance.
-        def client(&block)
-          self.class.client(&block)
+        def client
+          self.class.client
         end
 
         private

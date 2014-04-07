@@ -35,12 +35,12 @@ module Laundry
       def perform_transaction(dollars, type, options = {})
         require_merchant!
         options = {
-         'pg_merchant_id' => self.merchant.id,
-         'pg_password' => self.merchant.transaction_password,
-         'pg_total_amount' => dollars,
-         'pg_client_id' => self.client_id,
-         'pg_payment_method_id' => self.id,
-         'pg_transaction_type' => type
+         "pg_merchant_id"       => self.merchant.id,
+         "pg_password"          => self.merchant.transaction_password,
+         "pg_total_amount"      => dollars,
+         "pg_client_id"         => self.client_id,
+         "pg_payment_method_id" => self.id,
+         "pg_transaction_type"  => type
          }.merge(options)
         r = self.merchant.socket_driver.exec(options)
         TransactionResponse.from_response(r, self.merchant)
