@@ -31,7 +31,7 @@ module Laundry
         # Time diff from 1/1/0001 00:00:00 to 1/1/1970 00:00:00
         utc_time = (Time.now.to_i + 62135596800).to_s + "0000000"
         ts_hash = OpenSSL::HMAC.hexdigest(
-          OpenSSL::Digest::Digest.new("md5"),
+          OpenSSL::Digest.new("md5"),
           self.api_password,
           "#{self.api_login_id}|#{utc_time}" )
 
